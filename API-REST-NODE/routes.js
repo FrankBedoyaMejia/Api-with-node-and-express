@@ -30,6 +30,22 @@ routes.get("/:id", (req, res) => {
   });
 });
 
+routes.get("/edicion/:edicion", (req, res) => {
+  req.getConnection((err, conn) => {
+    if (err) return res.send(err);
+
+    conn.query(
+      "SELECT * FROM books WHERE edicion= ?",
+      [req.params.edicion],
+      (err, rows) => {
+        if (err) return res.send(err);
+
+        res.json(rows);
+      }
+    );
+  });
+});
+
 routes.post("/", (req, res) => {
   req.getConnection((err, conn) => {
     if (err) return res.send(err);
